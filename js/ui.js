@@ -168,7 +168,6 @@ export class UI {
         container.appendChild(p);
         if (killer) {
           const wrap = el('div', { class: 'end-killer' });
-          wrap.appendChild(el('div', { class: 'small', text: 'Killer' }));
           wrap.appendChild(this.renderMiniCard(killer));
           container.appendChild(wrap);
         }

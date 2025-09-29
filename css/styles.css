@@ -109,11 +109,11 @@ body {
 .card.selected { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(110,231,183,0.2) inset; }
 
 /* Mini card used in end modal */
-.card.mini { width: 120px; height: 160px; cursor: default; }
+.card.mini { width: 240px; height: 320px; cursor: default; }
 .card.mini .card-inner { padding: 8px; }
 .card.mini .suit { font-size: 16px; }
 .card.mini .value { font-size: 22px; }
-.end-killer { display: grid; gap: 8px; justify-items: start; margin-top: 8px; }
+.end-killer { display: grid; gap: 8px; justify-items: center; margin-top: 8px; }
 
 /* Flip animation */
 @media (prefers-reduced-motion: no-preference) {
