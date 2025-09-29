@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scoundrel – Solo Card Dungeon</title>
+  <meta name="description" content="A polished, accessible web version of the solo card game Scoundrel." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+</head>
+<body>
+  <header class="app-header" role="banner">
+    <h1 class="app-title" aria-label="Scoundrel">Scoundrel</h1>
+    <button id="toggleControlsBtn" class="btn icon toggle-controls" aria-label="Show menu" aria-controls="topControls" aria-expanded="false" title="Menu">▾</button>
+    <div class="controls" id="topControls">
+      <button id="newGameBtn" class="btn primary" aria-label="Start a new game">New Game</button>
+      <button id="restartBtn" class="btn" aria-label="Restart the current game from its last saved state">Restart</button>
+  <button id="helpBtn" class="btn" aria-haspopup="dialog" aria-controls="helpModal">How to Play</button>
+    </div>
+  </header>
+
+  <main id="main" class="layout" role="main">
+    <section class="hud" aria-label="Heads up display">
+      <div class="meter" aria-live="polite">
+        <label for="healthBar">Health</label>
+        <div class="health-wrapper">
+          <div id="healthBar" class="health" role="progressbar" aria-valuemin="0" aria-valuemax="20" aria-valuenow="20" aria-label="Health"></div>
+          <div id="healthText" class="health-text">20 / 20</div>
+        </div>
+      </div>
+      <div class="panel" id="weaponPanel" aria-label="Equipped weapon">
+        <div class="panel-title">Weapon</div>
+        <div class="panel-body">
+          <span id="weaponValue">—</span>
+          <span class="divider">•</span>
+          <span id="lastDefeated">—</span>
+        </div>
+      </div>
+      <div class="panel" aria-label="Turn info">
+        <div class="panel-title">Turn</div>
+        <div class="panel-body"><span id="turnCounter">1</span></div>
+      </div>
+      <div class="panel" aria-label="Deck count">
+        <div class="panel-title">Deck</div>
+        <div class="panel-body"><span id="deckCount">0</span></div>
+      </div>
+      <div class="panel" aria-label="Discard count">
+        <div class="panel-title">Discard</div>
+        <div class="panel-body"><span id="discardCount">0</span></div>
+      </div>
+      <div class="panel" aria-label="Carryover card">
+        <div class="panel-title">Carry</div>
+        <div class="panel-body"><span id="carryInfo">—</span></div>
+      </div>
+      <div class="actions"><!-- Avoid moved next to Face button in room --></div>
+    </section>
+
+    <section class="room" aria-label="Current room">
+      <div id="roomGrid" class="room-grid" role="list" aria-live="polite" aria-relevant="additions removals">
+        <!-- 4 card slots rendered by JS -->
+      </div>
+      <div class="room-actions" id="roomActions" aria-live="polite">
+        <p class="hint">Choose 3 of the 4 cards to resolve. 1 will carry to the next room.</p>
+      </div>
+    </section>
+
+    <section class="log" aria-label="Action log">
+      <h2 class="visually-hidden">Action Log</h2>
+      <div id="log" class="log-feed" aria-live="polite" aria-atomic="false"></div>
+    </section>
+  </main>
+
+  <dialog id="helpModal" aria-labelledby="helpTitle" aria-modal="true">
+    <h2 id="helpTitle">How to Play</h2>
+    <div class="modal-body">
+        <p>Survive the dungeon by managing health, weapons, and potions. Clear all cards to win; reach 0 health and you lose.</p>
+        <h3>Turn</h3>
+        <ul>
+          <li>Reveal up to 4 cards — this is the Room.</li>
+          <li>Either <strong>Avoid Room</strong> (put the 4 cards on the bottom; can’t avoid twice) or <strong>Face</strong> the room: pick 3 cards to resolve in any order. The unpicked 4th card carries forward.</li>
+        </ul>
+        <h3>Cards</h3>
+        <ul>
+          <li><strong>Weapons (♦)</strong>: Equip immediately. Your old weapon and its defeated stack are discarded.</li>
+          <li><strong>Potions (♥)</strong>: Heal by the value (max health 20). Only one potion per room heals; extras are discarded.</li>
+          <li><strong>Monsters (♣/♠)</strong>: Without a weapon, take damage equal to the value. With a weapon, damage = monster − weapon (min 0). If damage ≤ 0, the monster is defeated and stacked on your weapon.</li>
+        </ul>
+        <h3>Weapon Rule</h3>
+        <p>You can only use your weapon on a non‑increasing sequence of monster values. After you defeat a monster of value X, the next monster you use the weapon on must be ≤ X.</p>
+        <h3>Scoring</h3>
+        <ul>
+          <li>Win: score equals remaining health.</li>
+          <li>Lose: score is negative sum of remaining monster values.</li>
+        </ul>
+    </div>
+    <div class="modal-actions">
+      <button class="btn primary" id="closeHelpBtn">Close</button>
+    </div>
+  </dialog>
+
+  <dialog id="endModal" aria-labelledby="endTitle" aria-modal="true">
+    <h2 id="endTitle">Game Over</h2>
+    <div class="modal-body" id="endSummary"></div>
+    <div class="modal-actions">
+      <button class="btn primary" id="endNewBtn">New Game</button>
+    </div>
+  </dialog>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
