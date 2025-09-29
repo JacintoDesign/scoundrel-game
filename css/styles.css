@@ -141,12 +141,14 @@ body {
   .app-header { position: relative; flex-direction: column; align-items: flex-start; gap: 8px; }
   .controls { width: 100%; flex-wrap: wrap; display: none; }
   .controls.open { display: flex; }
-  .toggle-controls { display: inline-flex; align-items: center; justify-content: center; font-size: 14px; padding: 8px 14px; position: absolute; top: 8px; right: 16px; }
+  .toggle-controls { display: inline-flex; align-items: center; justify-content: center; font-size: 14px; padding: 8px 14px; position: absolute; top: 12px; right: 16px; }
 
   /* HUD: health meter gets its own full row; other panels flow in 2 columns */
-  .hud { grid-template-columns: repeat(3, 1fr); align-items: start; }
+  .hud { grid-template-columns: repeat(4, 1fr); align-items: start; }
   .hud .meter { grid-column: 1 / -1; }
   .hud .actions { grid-column: 1 / -1; justify-content: flex-start; }
+  /* Allow panels to shrink so four fit on one row without horizontal scroll */
+  .hud .panel { min-width: 0; }
 
   /* Cards: taller vertical aspect similar to desktop */
   .room-grid .card { height: auto; aspect-ratio: 3 / 4; max-height: 260px; }

@@ -44,9 +44,8 @@ function canUseWeaponOn(weapon, monsterValue) {
 }
 
 export class Game {
-  constructor(seed = Date.now()) {
-    this.rng = makeRNG(seed);
-    this.seed = seed;
+  constructor() {
+    this.rng = makeRNG(Date.now());
     this.resetState();
   }
 
@@ -68,10 +67,10 @@ export class Game {
   }
 
   static fromSaved(data) {
-    const g = new Game(data.seed || Date.now());
+    const g = new Game();
     Object.assign(g, data);
     // reattach RNG
-    g.rng = makeRNG(g.seed);
+    g.rng = makeRNG(Date.now());
     // Ensure weapon shape consistency across versions
     if (g.weapon && !g.weapon.card) {
       // Older save stored { value, stack: number[] }; rebuild minimal shape without card
@@ -84,7 +83,6 @@ export class Game {
 
   serialize() {
     return {
-      seed: this.seed,
       turn: this.turn,
       health: this.health,
       weapon: this.weapon,

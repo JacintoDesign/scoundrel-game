@@ -23,7 +23,6 @@ export class UI {
       turnCounter: document.getElementById('turnCounter'),
       deckCount: document.getElementById('deckCount'),
   discardCount: document.getElementById('discardCount'),
-      carryInfo: document.getElementById('carryInfo'),
       roomGrid: document.getElementById('roomGrid'),
       roomActions: document.getElementById('roomActions'),
       log: document.getElementById('log'),
@@ -91,12 +90,12 @@ export class UI {
   }
 
   newGame() {
-    this.game = new Game(Date.now());
+    this.game = new Game();
     this.game.startTurn();
     this.selected.clear();
     save(SAVE_KEY, this.game.serialize());
     this.renderAll(true);
-    this.logLine(`New game started (seed ${this.game.seed}).`, 'info');
+    this.logLine('New game started.', 'info');
   }
 
   restart() {
@@ -220,7 +219,7 @@ export class UI {
     r.turnCounter.textContent = String(g.turn);
     r.deckCount.textContent = String(g.deck.length);
     r.discardCount.textContent = String(g.discard.length);
-    r.carryInfo.textContent = g.carryCard ? `${g.carryCard.suit}${displayRank(g.carryCard)}` : '—';
+  // Carry panel removed; no display for carry card in HUD
   }
 
   renderRoom(animate) {
