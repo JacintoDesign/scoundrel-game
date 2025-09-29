@@ -125,7 +125,7 @@ body {
 /* Back-of-card overlay for flip animation */
 .card .art::after {
   content: ""; position: absolute; inset: 0;
-  background-image: url('assets/deck.jpg'); background-size: cover; background-position: center;
+  background-image: url('../assets/deck.jpg'); background-size: cover; background-position: center;
   opacity: 0; pointer-events: none; transition: opacity 720ms ease;
 }
 .card.flip-enter .art::after { opacity: 1; }

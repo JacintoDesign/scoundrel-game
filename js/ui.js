@@ -267,7 +267,7 @@ export class UI {
     if (isPlaceholder) {
       li.classList.add('disabled', 'placeholder');
       const art = el('div', { class: 'art' });
-      art.style.backgroundImage = `url('assets/deck.jpg')`;
+  art.style.backgroundImage = `url('./assets/deck.jpg')`;
       const inner = el('div', { class: 'card-inner' });
       inner.append(el('div', { class: 'suit', text: '' }));
       inner.append(el('div', { class: 'value', text: '' }));
@@ -329,7 +329,7 @@ export class UI {
         return `assets/diamond-${tier}.jpg`;
       }
       default:
-        return 'assets/deck.jpg';
+  return './assets/deck.jpg';
     }
   }
 
