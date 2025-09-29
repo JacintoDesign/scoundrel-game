@@ -191,8 +191,15 @@ dialog { border: none; border-radius: 12px; padding: 0; background: #242424; col
 dialog .modal-body { padding: 16px; }
 dialog .modal-actions { display: flex; justify-content: flex-end; gap: 8px; padding: 16px; border-top: 1px solid rgba(255,255,255,0.06); }
 dialog h2, dialog h3 { margin: 16px; }
+#endModal #endTitle { margin-bottom: 0; text-align: center; }
+#endModal .modal-body { padding-top: 0; }
+#endModal h3.score { margin-top: 0; text-align: center; }
+#endModal #endSummary { text-align: center; }
 #helpModal h2 { text-align: left; }
 #helpModal h3 { text-align: left; margin-left: 0; }
+/* Tighten spacing in Help modal like End modal */
+#helpModal #helpTitle { margin-bottom: 0; }
+#helpModal .modal-body { padding-top: 0; }
 dialog .small { color: var(--muted); font-size: 13px; margin: 0 16px 16px; }
 
 /* Focus outlines on focusable elements in cards */

@@ -28,7 +28,6 @@ export class UI {
       log: document.getElementById('log'),
       avoidBtn: document.getElementById('avoidBtn'),
       newGameBtn: document.getElementById('newGameBtn'),
-      restartBtn: document.getElementById('restartBtn'),
       helpBtn: document.getElementById('helpBtn'),
   toggleControlsBtn: document.getElementById('toggleControlsBtn'),
   topControls: document.getElementById('topControls'),
@@ -43,7 +42,6 @@ export class UI {
   bindControls() {
     const r = this.refs;
     r.newGameBtn.addEventListener('click', () => this.newGame());
-    r.restartBtn.addEventListener('click', () => this.restart());
   // Avoid button is rendered dynamically next to Face in room; handler is attached there.
 
     // Keyboard shortcuts
@@ -98,17 +96,6 @@ export class UI {
     this.logLine('New game started.', 'info');
   }
 
-  restart() {
-    const saved = load(SAVE_KEY);
-    if (saved) {
-      this.game = Game.fromSaved(saved);
-      this.selected.clear();
-      this.renderAll(false);
-      this.logLine('Restarted from last saved state.', 'info');
-    } else {
-      this.newGame();
-    }
-  }
 
   resumeOrNew() {
     const saved = load(SAVE_KEY);
@@ -159,12 +146,16 @@ export class UI {
       const container = this.refs.endSummary;
       container.innerHTML = '';
       if (this.game.status === 'won') {
-        const p = el('p', { text: `You cleared the dungeon with ${this.game.health} health. Score: ${score}.` });
+        const p = el('p', { text: `You cleared the dungeon with ${this.game.health} health.` });
         container.appendChild(p);
+        const s = el('h3', { class: 'score', text: `Score: ${score}` });
+        container.appendChild(s);
       } else {
         const killer = this.game.killerCard;
-        const p = el('p', { text: killer ? `You were defeated by ${killer.suit}${displayRank(killer)}. Score: ${score}.` : `You died. Score: ${score}.` });
+        const p = el('p', { text: killer ? `You were defeated by ${killer.suit}${displayRank(killer)}.` : `You died.` });
         container.appendChild(p);
+        const s = el('h3', { class: 'score', text: `Score: ${score}` });
+        container.appendChild(s);
         if (killer) {
           const wrap = el('div', { class: 'end-killer' });
           wrap.appendChild(this.renderMiniCard(killer));

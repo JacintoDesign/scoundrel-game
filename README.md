@@ -49,7 +49,7 @@ Open `index.html` in any modern browser.
 - Potion restriction: only one potion per room provides healing; others are auto-discarded.
 - Non-increasing weapon rule: weapon can only be used on monsters with value ≤ last defeated with that weapon. If blocked, you take full damage.
 - Carry: the unchosen 4th card is carried to the next room as the first card.
-- Persistence: game state is saved to LocalStorage after each action to support Restart.
+- Persistence: game state is saved to LocalStorage after each action and resumes automatically on load.
 
 ### Worked Examples (Weapon Gate)
 
