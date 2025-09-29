@@ -154,9 +154,9 @@ body {
   .room-grid .card { height: auto; aspect-ratio: 3 / 4; max-height: 260px; }
 
   /* Room actions: buttons on one row, hint on the line below */
-  .room-actions { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; }
-  .room-actions .btn { display: inline-block; }
-  .room-actions .hint { flex-basis: 100%; order: 2; margin-top: 4px; }
+  .room-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; align-items: stretch; }
+  .room-actions .btn { width: 100%; margin: 0 !important; }
+  .room-actions .hint { grid-column: 1 / -1; margin-top: 0; }
 }
 
 /* Log */
