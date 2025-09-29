@@ -89,6 +89,7 @@ body {
   position: relative; height: 140px; border-radius: 16px; background: var(--card); border: 1px solid var(--card-border); overflow: hidden; cursor: pointer; user-select: none;
   box-shadow: var(--shadow);
   transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+  perspective: 1000px;
 }
 .card .art { position: absolute; inset: 0; background-size: cover; background-position: center; filter: saturate(0.9) contrast(1.05); opacity: 0.8; pointer-events: none; }
 .card.placeholder .art { opacity: 0.3; filter: saturate(0.7) contrast(1); }
@@ -118,17 +119,12 @@ body {
 /* Flip animation */
 @media (prefers-reduced-motion: no-preference) {
   /* Start flipped to show the back and rotate to front */
-  .flip-enter { transform: rotateY(180deg) scale(0.9); opacity: 1; }
-  .flip-enter-active { transform: rotateY(0deg) scale(1); opacity: 1; transition: transform 720ms ease, opacity 720ms ease; }
+  .card .flip { position: absolute; inset: 0; transform-style: preserve-3d; }
+  .card .face { position: absolute; inset: 0; backface-visibility: hidden; }
+  .card .face.back { transform: rotateY(180deg); }
+  .card.flip-enter .flip { transform: rotateY(180deg) scale(0.98); }
+  .card.flip-enter-active .flip { transform: rotateY(0deg) scale(1); transition: transform 720ms ease; }
 }
-
-/* Back-of-card overlay for flip animation */
-.card .art::after {
-  content: ""; position: absolute; inset: 0;
-  background-image: url('../assets/deck.jpg'); background-size: cover; background-position: center;
-  opacity: 0; pointer-events: none; transition: opacity 720ms ease;
-}
-.card.flip-enter .art::after { opacity: 1; }
 
 /* Desktop: cards use a vertical 3:4 aspect ratio */
 @media (min-width: 720px) {

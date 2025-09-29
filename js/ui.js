@@ -262,7 +262,7 @@ export class UI {
 
   renderCard(card, idx, animate) {
     const isPlaceholder = !card;
-    const li = el('div', { class: 'card', attrs: { role: 'listitem', tabindex: isPlaceholder ? '-1' : '0' } });
+  const li = el('div', { class: 'card', attrs: { role: 'listitem', tabindex: isPlaceholder ? '-1' : '0' } });
 
     if (isPlaceholder) {
       li.classList.add('disabled', 'placeholder');
@@ -282,13 +282,24 @@ export class UI {
     if (card.suit === '♦') li.classList.add('diamond');
     if (card.suit === '♥') li.classList.add('heart');
 
-  const inner = el('div', { class: 'card-inner' });
-  const art = el('div', { class: 'art' });
-  art.style.backgroundImage = `url('${this.artFor(card)}')`;
+    // Build 3D flip structure: back face and front face
+    const flip = el('div', { class: 'flip' });
+    const back = el('div', { class: 'face back' });
+    const backArt = el('div', { class: 'art' });
+    backArt.style.backgroundImage = `url('./assets/deck.jpg')`;
+    back.append(backArt);
+
+    const front = el('div', { class: 'face front' });
+    const art = el('div', { class: 'art' });
+    art.style.backgroundImage = `url('${this.artFor(card)}')`;
+    const inner = el('div', { class: 'card-inner' });
     inner.append(el('div', { class: 'suit', text: card.suit }));
     inner.append(el('div', { class: 'value', text: displayRank(card) }));
     inner.append(el('div', { class: 'badge', text: labelFor(card) }));
-  li.append(art, inner);
+    front.append(art, inner);
+
+    flip.append(back, front);
+    li.append(flip);
 
   const selectable = this.game.status === 'playing' && this.game.room.length > 0;
     if (selectable) {
