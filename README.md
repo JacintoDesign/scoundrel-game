@@ -1,64 +1,79 @@
 # Scoundrel (Web)
 
-A polished, accessible, mobile-first web version of the solo card game Scoundrel. Runs fully in the browser with no build step.
+A polished, accessible, mobile-first web version of the solo card game Scoundrel. Vanilla HTML/CSS/JS. No build step required.
 
 ## Play
 
-Open `index.html` in any modern browser.
+Just open `index.html` in a modern browser. The game auto-saves to LocalStorage after each action and resumes automatically when you come back.
+
+## Features
+
+- Full rules implementation with clear UI feedback and logs
+- 3D card flip animation with proper backs (honors `prefers-reduced-motion`)
+- Killer card shown on Game Over (mini card preview), with centered score line
+- Mobile-friendly layout:
+  - HUD health meter on its own row; four panels on one row
+  - Action buttons (“Face Selected”, “Avoid Room”) sized to card columns
+  - Compact header with a menu toggle
+- Accessible: keyboard support, focus styles, ARIA live log
+- Persistent saves: picks up where you left off
 
 ## Rules Summary
 
 - Health: start at 20 (max 20). Clear the dungeon to win; if health ≤ 0, you lose.
 - Deck setup (44 cards total):
-  - Monsters: all clubs/spades (♣/♠): 2–10, J=11, Q=12, K=13, A=14 (26 cards)
-  - Weapons: diamonds (♦) 2–10 (9 cards)
-  - Potions: hearts (♥) 2–10 (9 cards)
-  - Remove red face cards (J/Q/K ♥♦) and red Aces (A♥, A♦) from a standard deck
-- Room: draw until 4 cards are visible.
-  - Avoid: put all 4 on bottom (cannot avoid twice in a row).
-  - Face: choose 3 to resolve in any order; the 4th carries to next room.
+  - Monsters: all clubs/spades (♣/♠): 2–10, J=11, Q=12, K=13, A=14 (26)
+  - Weapons: diamonds (♦) 2–10 (9)
+  - Potions: hearts (♥) 2–10 (9)
+  - Removed: red face cards (J/Q/K ♥♦) and red Aces (A♥, A♦)
+- Room: draw up to 4 cards visible.
+  - Avoid Room: put all 4 on bottom (cannot avoid twice in a row)
+  - Face: choose 3 to resolve in any order; the 4th carries to next room
 - Resolving:
-  - Weapon (♦): equip; discard old weapon and its stack. Resets last-defeated gate.
-  - Potion (♥): heal by its value (cap 20). Only one potion per room; extras are discarded.
+  - Weapon (♦): equip; discard old weapon and its stacked monsters; resets last‑defeated gate
+  - Potion (♥): heal by its value (cap 20). Only one potion per room heals; extras are discarded
   - Monster (♣/♠):
-    - Bare-handed: take full value as damage.
-    - With weapon: damage = monster − weapon (min 0). If damage ≤ 0, monster is defeated and stacked; update weapon’s lastDefeated.
-    - Non-increasing gate: you can only use the weapon if the monster's value ≤ the last defeated monster (or any monster if none defeated yet).
+    - Bare-handed: take full value as damage
+    - With weapon: damage = max(0, monster − weapon). If 0, monster is defeated and stacked
+    - Non‑increasing gate: you can only use the weapon on values ≤ the last defeated monster (or any value until your first defeat with that weapon)
 - End & Score:
-  - Win by clearing the deck → score = remaining health.
-  - Lose if health ≤ 0 → score = negative sum of remaining monster values in deck/room/carry.
+  - Win: score = remaining health
+  - Lose: score = negative sum of remaining monster values in deck/room/carry; Game Over modal shows the killer card
 
 ## Files
 
-- `index.html` — layout: HUD, room grid, action log, modals.
-- `css/styles.css` — responsive design, color variables, animations, accessibility styles.
-- `js/utils.js` — helpers: PRNG, Fisher–Yates shuffle, DOM utils, storage.
-- `js/game.js` — core rules and game state model.
-- `js/ui.js` — rendering and interactions.
-- `js/main.js` — bootstraps the app.
+- `index.html` — App structure: HUD, room grid, log, modals (How to Play, Game Over)
+- `css/styles.css` — Theme, layout, responsive/mobile tweaks, animations
+- `js/utils.js` — PRNG, shuffle, DOM helpers, storage helpers
+- `js/game.js` — Core rules and game state
+- `js/ui.js` — Rendering and interactions
+- `js/main.js` — Bootstraps UI
 
 ## Accessibility
 
-- Keyboard operable: tab to cards, Enter/Space to select, button to face.
-- Visible focus states; ARIA live regions for the log.
-- Honors `prefers-reduced-motion` for reduced flip animation.
+- Keyboard: tab to cards, Enter/Space to select; buttons are reachable and labeled
+- Visible focus styles; live region for log updates
+- Respects `prefers-reduced-motion` (reduces flip animations)
 
-## Notes on Rules Implementation
+## Implementation Notes
 
-- Avoid restriction is enforced: cannot avoid twice in a row.
-- Potion restriction: only one potion per room provides healing; others are auto-discarded.
-- Non-increasing weapon rule: weapon can only be used on monsters with value ≤ last defeated with that weapon. If blocked, you take full damage.
-- Carry: the unchosen 4th card is carried to the next room as the first card.
-- Persistence: game state is saved to LocalStorage after each action and resumes automatically on load.
-
-### Worked Examples (Weapon Gate)
-
-- Suppose you equip ♦7. You defeat a 7 (damage 0), lastDefeated = 7. You can next use the weapon on monsters ≤ 7. If you try a 9 next, the gate blocks; you take full 9 damage.
-- Equip ♦9, then you hit a 10 taking 1 damage (not defeated). Since no defeat occurred, the lastDefeated remains unchanged; the non-increasing gate continues to allow any value until your first defeat with this weapon.
+- Avoid restriction enforced (cannot avoid twice)
+- Potion limit per room enforced (extras are auto-discarded)
+- Non-increasing weapon rule enforced; blocked hits deal full damage
+- Carry is implicit (the unchosen 4th card); HUD carry panel removed to reduce clutter
+- Killer card recorded and displayed on death
+- No “Restart” button — the game auto-resumes; use “New Game” to start fresh
 
 ## Development
 
 No build step. Edit files and reload.
+
+## Assets
+
+- Card backs: `assets/deck.jpg`
+- Hearts: `assets/heart.jpg`
+- Clubs/Spades: tiered art by value (e.g., `assets/club-1.jpg`, `club-2.jpg`, `club-3.jpg`)
+- Diamonds: tiered art by ranges (e.g., `assets/diamond-1.jpg`, `-2.jpg`, `-3.jpg`)
 
 ## License
 
