@@ -136,10 +136,8 @@ body {
   .room-actions .hint { grid-column: 1 / -1; margin: 0; text-align: center; }
 }
 
-/* Foldable/tablet-like layout (e.g., Galaxy Z Fold unfolded) */
-@media (min-width: 900px) and (min-height: 800px) and (max-width: 1100px) and (max-height: 1000px)
-  and (min-aspect-ratio: 1/1) and (max-aspect-ratio: 6/5) {
-  /* Let the health meter consume all remaining space to the left of the panels */
+/* Square-ish aspect (not mobile portrait, not 16:9 wide) — let Health take all remaining width */
+@media (min-width: 720px) and (min-aspect-ratio: 1/1) and (max-aspect-ratio: 5/4) {
   .hud { grid-template-columns: 1fr repeat(4, max-content); }
   .hud .actions { display: none; }
 }
