@@ -34,6 +34,7 @@ export class UI {
       helpModal: document.getElementById('helpModal'),
       closeHelpBtn: document.getElementById('closeHelpBtn'),
       endModal: document.getElementById('endModal'),
+      endTitle: document.getElementById('endTitle'),
       endSummary: document.getElementById('endSummary'),
       endNewBtn: document.getElementById('endNewBtn'),
     };
@@ -145,11 +146,23 @@ export class UI {
       const score = this.game.computeScore();
       const container = this.refs.endSummary;
       container.innerHTML = '';
+      // Set modal title based on outcome
+      if (this.refs.endTitle) this.refs.endTitle.textContent = this.game.status === 'won' ? 'You Win!' : 'Game Over';
       if (this.game.status === 'won') {
         const p = el('p', { text: `You cleared the dungeon with ${this.game.health} health.` });
         container.appendChild(p);
         const s = el('h3', { class: 'score', text: `Score: ${score}` });
         container.appendChild(s);
+
+        // Show the last enemy defeated, if any
+        const g = this.game;
+        const lastDefeatedCard = g.weapon && g.weapon.stack && g.weapon.stack.length > 0 ? g.weapon.stack[g.weapon.stack.length - 1] : null;
+        if (lastDefeatedCard) {
+          const wrap = el('div', { class: 'end-killer' });
+          wrap.appendChild(el('div', { class: 'small', text: 'Last enemy defeated' }));
+          wrap.appendChild(this.renderMiniCard(lastDefeatedCard));
+          container.appendChild(wrap);
+        }
       } else {
         const killer = this.game.killerCard;
         const p = el('p', { text: killer ? `You were defeated by ${killer.suit}${displayRank(killer)}.` : `You died.` });
