@@ -82,7 +82,6 @@ body {
 @media (min-width: 720px) { .room-grid { grid-template-columns: repeat(4, 1fr); } }
 .room-actions { text-align: center; color: var(--muted); display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .room-actions .btn { margin: 0 4px; }
-.room-actions > .btn + .btn { margin-left: 8px; }
 .room-actions .hint { margin: 8px 0 0; }
 
 .card {
@@ -129,6 +128,12 @@ body {
 /* Desktop: cards use a vertical 3:4 aspect ratio */
 @media (min-width: 720px) {
   .room-grid .card { height: auto; aspect-ratio: 3 / 4; }
+  /* Desktop: align actions under cards 2 and 3, one button per card width */
+  .room-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; align-items: stretch; justify-items: stretch; text-align: initial; }
+  .room-actions .btn { width: 100%; margin: 0; }
+  .room-actions .btn.primary { grid-column: 2; }
+  .room-actions .btn.danger { grid-column: 3; }
+  .room-actions .hint { grid-column: 1 / -1; margin: 0; text-align: center; }
 }
 
 /* Mobile layout tweaks */

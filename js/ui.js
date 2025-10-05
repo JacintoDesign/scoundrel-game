@@ -234,12 +234,12 @@ export class UI {
     if (g.status === 'playing' && realCount > 0) {
       const needNow = Math.max(0, Math.min(3, realCount) - this.selected.size);
       const btnText = needNow === 0 ? 'Face Selected' : `Face Selected (${needNow} more)`;
-      const btn = el('button', { class: 'btn primary', text: btnText });
+  const btn = el('button', { class: 'btn primary', text: btnText, attrs: { type: 'button' } });
       btn.addEventListener('click', () => this.onFace());
       actions.appendChild(btn);
 
   const canAvoid = !g.avoidedLastTurn && g.room.length === 4;
-  const avoid = el('button', { class: 'btn danger', text: 'Avoid Room' });
+  const avoid = el('button', { class: 'btn danger', text: 'Avoid Room', attrs: { type: 'button' } });
       avoid.disabled = !canAvoid;
       avoid.title = canAvoid ? '' : 'You cannot avoid now';
       avoid.addEventListener('click', () => this.onAvoid());

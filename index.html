@@ -11,10 +11,10 @@
 <body>
   <header class="app-header" role="banner">
     <h1 class="app-title" aria-label="Scoundrel">Scoundrel</h1>
-    <button id="toggleControlsBtn" class="btn icon toggle-controls" aria-label="Show menu" aria-controls="topControls" aria-expanded="false" title="Menu">▾</button>
+  <button id="toggleControlsBtn" class="btn icon toggle-controls" type="button" aria-label="Show menu" aria-controls="topControls" aria-expanded="false" title="Menu">▾</button>
     <div class="controls" id="topControls">
-      <button id="newGameBtn" class="btn primary" aria-label="Start a new game">New Game</button>
-  <button id="helpBtn" class="btn" aria-haspopup="dialog" aria-controls="helpModal">How to Play</button>
+    <button id="newGameBtn" class="btn primary" type="button" aria-label="Start a new game">New Game</button>
+  <button id="helpBtn" class="btn" type="button" aria-haspopup="dialog" aria-controls="helpModal">How to Play</button>
     </div>
   </header>
 
@@ -90,7 +90,7 @@
         </ul>
     </div>
     <div class="modal-actions">
-      <button class="btn primary" id="closeHelpBtn">Close</button>
+  <button class="btn primary" id="closeHelpBtn" type="button">Close</button>
     </div>
   </dialog>
 
@@ -98,7 +98,7 @@
     <h2 id="endTitle">Game Over</h2>
     <div class="modal-body" id="endSummary"></div>
     <div class="modal-actions">
-      <button class="btn primary" id="endNewBtn">New Game</button>
+  <button class="btn primary" id="endNewBtn" type="button">New Game</button>
     </div>
   </dialog>
 
